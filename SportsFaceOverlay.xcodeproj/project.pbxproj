@@ -10,6 +10,7 @@
 		1C0CAC0A1D003EF900AA352B /* Overlay.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C0CAC091D003EF900AA352B /* Overlay.swift */; };
 		1C0CAC0C1D00455300AA352B /* OverlayCellType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C0CAC0B1D00455300AA352B /* OverlayCellType.swift */; };
 		1C0CAC0E1D00459C00AA352B /* OverlayCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C0CAC0D1D00459C00AA352B /* OverlayCell.swift */; };
+		1C320E0A1D115B1C006C82C8 /* eyeball.png in Resources */ = {isa = PBXBuildFile; fileRef = 1C320E091D115B1C006C82C8 /* eyeball.png */; };
 		1C7A4C841CF5ABA200F1F9BB /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C7A4C831CF5ABA200F1F9BB /* AppDelegate.swift */; };
 		1C7A4C861CF5ABA200F1F9BB /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C7A4C851CF5ABA200F1F9BB /* ViewController.swift */; };
 		1C7A4C891CF5ABA200F1F9BB /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1C7A4C871CF5ABA200F1F9BB /* Main.storyboard */; };
@@ -43,6 +44,7 @@
 		1C0CAC091D003EF900AA352B /* Overlay.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Overlay.swift; sourceTree = "<group>"; };
 		1C0CAC0B1D00455300AA352B /* OverlayCellType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OverlayCellType.swift; sourceTree = "<group>"; };
 		1C0CAC0D1D00459C00AA352B /* OverlayCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OverlayCell.swift; sourceTree = "<group>"; };
+		1C320E091D115B1C006C82C8 /* eyeball.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = eyeball.png; path = AssetFiles/eyeball.png; sourceTree = "<group>"; };
 		1C7A4C801CF5ABA200F1F9BB /* SportsFaceOverlay.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SportsFaceOverlay.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1C7A4C831CF5ABA200F1F9BB /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		1C7A4C851CF5ABA200F1F9BB /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -111,6 +113,7 @@
 			children = (
 				1C7A4C871CF5ABA200F1F9BB /* Main.storyboard */,
 				1C7A4C8A1CF5ABA200F1F9BB /* Assets.xcassets */,
+				1C320E091D115B1C006C82C8 /* eyeball.png */,
 				1C7A4C8C1CF5ABA200F1F9BB /* LaunchScreen.storyboard */,
 				1C7A4C8F1CF5ABA200F1F9BB /* Info.plist */,
 				1C9539361CFC44B200D11DC4 /* Source */,
@@ -258,6 +261,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1C320E0A1D115B1C006C82C8 /* eyeball.png in Resources */,
 				1C7A4C8E1CF5ABA200F1F9BB /* LaunchScreen.storyboard in Resources */,
 				1C7A4C8B1CF5ABA200F1F9BB /* Assets.xcassets in Resources */,
 				1C7A4C891CF5ABA200F1F9BB /* Main.storyboard in Resources */,
