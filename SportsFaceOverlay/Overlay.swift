@@ -9,10 +9,12 @@
 class Overlay {
   var title: String?
   var icon: UIImage?
+  var leftEye: UIImage?
   
-  init(title: String?, icon: UIImage?) {
+  init(title: String?, icon: UIImage?, leftEye: UIImage?) {
     self.title = title
     self.icon = icon
+    self.leftEye = leftEye
   }
 }
 

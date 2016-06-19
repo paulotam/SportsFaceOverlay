@@ -32,10 +32,12 @@ class LiveMaskController: UIViewController, UICollectionViewDataSource, UICollec
   
   let imageView = GLKView()
   
-  //let comicEffect = CIFilter(name: "CIComicEffect")!
-  let eyeballImage = CIImage(image: UIImage(named: "eyeball.png")!)!
+//  let comicEffect = CIFilter(name: "CIComicEffect")!
+  var eyeballImage = CIImage(image: UIImage(named: "eyeball.png")!)!
+  var noseImage = CIImage(image: UIImage(named: "Hawks")!)!
   
   var cameraImage: CIImage?
+  var outputImage: CIImage?
   
   lazy var ciContext: CIContext =
     {
@@ -56,10 +58,10 @@ class LiveMaskController: UIViewController, UICollectionViewDataSource, UICollec
       }()
   
   private var overlays: [Overlay] = [
-    Overlay( title: "Hawks", icon: UIImage(named: "Hawks")),
-    Overlay( title: "Hawks", icon: UIImage(named: "Hawks")),
-    Overlay( title: "Hawks", icon: UIImage(named: "Hawks")),
-    Overlay( title: "Hawks", icon: UIImage(named: "Hawks"))]
+    Overlay( title: "Hawks", icon: UIImage(named: "HAWKS-beak-large.png"), leftEye: UIImage(named: "eyeball.png")),
+    Overlay( title: "Lions", icon: UIImage(named: "lions-mouth-large.png"), leftEye: UIImage(named: "lion-eyes-left.png")),
+    Overlay( title: "Hawks", icon: UIImage(named: "Hawks"), leftEye: UIImage(named: "eyeball.png.png")),
+    Overlay( title: "Lions", icon: UIImage(named: "lions-mouth.png"), leftEye: UIImage(named: "lion-eyes-left.png"))]
 
   
   override func viewWillAppear(animated: Bool) {
@@ -67,6 +69,8 @@ class LiveMaskController: UIViewController, UICollectionViewDataSource, UICollec
     
     //reload the data in the colelction view.
     collectionView.reloadData()
+    
+    imageView.contentMode = .ScaleAspectFit
     
     /*
     captureSession = AVCaptureSession()
@@ -200,6 +204,36 @@ class LiveMaskController: UIViewController, UICollectionViewDataSource, UICollec
     }
   }
   
+  func noseImage(cameraImage: CIImage, backgroundImage: CIImage) -> CIImage
+  {
+    let compositingFilter = CIFilter(name: "CISourceAtopCompositing")!
+    let transformFilter = CIFilter(name: "CIAffineTransform")!
+    
+    let halfNoseWidth = noseImage.extent.width / 2
+    let halfNoseHeight = noseImage.extent.height / 2
+    
+    if let features = detector.featuresInImage(cameraImage).first as? CIFaceFeature
+      where features.hasMouthPosition
+    {
+      let nosePosition = CGAffineTransformMakeTranslation(
+        features.mouthPosition.x - halfNoseWidth,
+        features.mouthPosition.y - halfNoseHeight)
+      
+      transformFilter.setValue(noseImage, forKey: "inputImage")
+      transformFilter.setValue(NSValue(CGAffineTransform: nosePosition), forKey: "inputTransform")
+      let transformResult = transformFilter.valueForKey("outputImage") as! CIImage
+      
+      compositingFilter.setValue(backgroundImage, forKey: kCIInputBackgroundImageKey)
+      compositingFilter.setValue(transformResult, forKey: kCIInputImageKey)
+      
+      return  compositingFilter.valueForKey("outputImage") as! CIImage
+    }
+    else
+    {
+      return backgroundImage
+    }
+  }
+  
   override func viewDidLayoutSubviews()
   {
     imageView.frame = view.bounds
@@ -228,33 +262,33 @@ class LiveMaskController: UIViewController, UICollectionViewDataSource, UICollec
   
   func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
     // set the overlay to do something?
-    imageOverlay.image = overlays[indexPath.row].icon
-    
+    //imageOverlay.image = overlays[indexPath.row].icon
+    noseImage = CIImage(image: overlays[indexPath.row].icon!)!
+    eyeballImage = CIImage(image: overlays[indexPath.row].leftEye!)!
   }
   
   @IBAction func takePicture(sender: AnyObject) {
-    // performSegueWithIdentifier("previewMaskSegue", sender: self)
-    /*if let videoConnection = stillImageOutput!.connectionWithMediaType(AVMediaTypeVideo) {
-      videoConnection.videoOrientation = AVCaptureVideoOrientation.Portrait
-      stillImageOutput?.captureStillImageAsynchronouslyFromConnection(videoConnection, completionHandler: {(sampleBuffer, error) in
-        if (sampleBuffer != nil) {
-          let imageData = AVCaptureStillImageOutput.jpegStillImageNSDataRepresentation(sampleBuffer)
-          let dataProvider = CGDataProviderCreateWithCFData(imageData)
-          let cgImageRef = CGImageCreateWithJPEGDataProvider(dataProvider, nil, true, CGColorRenderingIntent.RenderingIntentDefault)
-          
-          let image = UIImage(CGImage: cgImageRef!, scale: 1.0, orientation: UIImageOrientation.Right)
-          self.capturedImage.image = image
-        }
-      })
-    }*/
+    
+    let image = UIImage(CIImage: outputImage!)
+    capturedImage.image = image
+    
+    performSegueWithIdentifier("previewMaskSegue", sender: self)
+    
   }
   
   override func didReceiveMemoryWarning() {
     super.didReceiveMemoryWarning()
-    // Dispose of any resources that can be recreated.
+    
   }
   
-  
+  override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+    
+    if let pmVC = segue.destinationViewController as? PreviewMaskController {
+      pmVC.imagePassed = capturedImage
+      
+    }
+    
+  }
 }
 
 
@@ -285,17 +319,18 @@ extension LiveMaskController: GLKViewDelegate
     
     let leftEyeImage = eyeImage(cameraImage, backgroundImage: cameraImage, leftEye: true)
     let rightEyeImage = eyeImage(cameraImage, backgroundImage: leftEyeImage, leftEye: false)
-    
+    let noseResult = noseImage(cameraImage, backgroundImage: rightEyeImage)
     //comicEffect.setValue(rightEyeImage, forKey: kCIInputImageKey)
     
 //    let outputImage = comicEffect.valueForKey(kCIOutputImageKey) as! CIImage
-    let outputImage = rightEyeImage
+    outputImage = noseResult
     
-    ciContext.drawImage(outputImage,
+    // TODO: remove !
+    ciContext.drawImage(outputImage!,
                         inRect: CGRect(x: 0, y: 0,
                           width: imageView.drawableWidth,
                           height: imageView.drawableHeight),
-                        fromRect: outputImage.extent)
+                        fromRect: outputImage!.extent)
   }
 }
 
