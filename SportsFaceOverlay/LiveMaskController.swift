@@ -55,9 +55,9 @@ class LiveMaskController: UIViewController, UICollectionViewDataSource, UICollec
   //setup data for Collection Views
   private var overlays: [Overlay] = [
     Overlay( title: "Hawks", icon: UIImage(named: "hawks-icon"), mouth: UIImage(named: "hawks-mouth"), leftEye: UIImage(named: "hawks-left-eye"), rightEye: UIImage(named: "hawks-right-eye")),
-    Overlay( title: "Lions", icon: UIImage(named: "lions-icon"), mouth: UIImage(named: "lions-mouth"), leftEye: UIImage(named: "eyeball.png.png"), rightEye: UIImage(named: "eyeball.png")),
-    Overlay( title: "Cats", icon: UIImage(named: "cats-icon"), mouth: UIImage(named: "hawks-icon"), leftEye: UIImage(named: "lion-eyes-leftx2.png"), rightEye: UIImage(named: "lion-eyes-right.png")),
-    Overlay( title: "Tigers", icon: UIImage(named: "tigers-icon"), mouth: UIImage(named: "hawks-icon"), leftEye: UIImage(named: "lion-eyes-left.png"), rightEye: UIImage(named: "lion-eyes-right"))]
+    Overlay( title: "Lions", icon: UIImage(named: "lions-icon"), mouth: UIImage(named: "lions-mouth"), leftEye: UIImage(named: "eyeball"), rightEye: UIImage(named: "eyeball")),
+    Overlay( title: "Cats", icon: UIImage(named: "cats-icon"), mouth: UIImage(named: "hawks-mouth"), leftEye: UIImage(named: "hawks-left-eye"), rightEye: UIImage(named: "hawks-right-eye")),
+    Overlay( title: "Tigers", icon: UIImage(named: "tigers-icon"), mouth: UIImage(named: "lions-mouth"), leftEye: UIImage(named: "eyeball"), rightEye: UIImage(named: "eyeball"))]
 
   
   override func viewWillAppear(animated: Bool) {
