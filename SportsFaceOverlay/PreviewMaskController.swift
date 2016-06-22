@@ -8,12 +8,17 @@
 
 import UIKit
 
-class PreviewMaskController: UIViewController, UITextFieldDelegate {
+class PreviewMaskController: UIViewController {
   
   var imagePassed: UIImageView?
   
   @IBOutlet weak var imageView: UIImageView!
-  @IBOutlet weak var shareText: UITextField!
+  
+  let shareText:String = "I just created my Sports Face with Sportsbets SportsFace App #sportsbetcomau"
+  
+  @IBAction func backButton(sender: AnyObject) {
+    self.performSegueWithIdentifier("unwindToLive", sender: self)
+  }
   
   override func viewWillAppear(animated: Bool) {
     super.viewWillAppear(animated)
@@ -23,13 +28,16 @@ class PreviewMaskController: UIViewController, UITextFieldDelegate {
   
   override func viewDidLoad() {
     super.viewDidLoad()
-    self.shareText.delegate = self;
   }
   
 
   @IBAction func shareButton(sender: AnyObject) {
-    // TODO: share code
-    let objectsToShare = [shareText.text!, imageView.image! as UIImage]
+    UIGraphicsBeginImageContext(imageView.frame.size)
+    imageView.layer.renderInContext(UIGraphicsGetCurrentContext()!)
+    let image = UIGraphicsGetImageFromCurrentImageContext()
+    UIGraphicsEndImageContext()
+    
+    let objectsToShare = [shareText, image]
     let activityVC = UIActivityViewController(activityItems: objectsToShare, applicationActivities: nil)
     activityVC.popoverPresentationController?.sourceView = sender as? UIView
     self.presentViewController(activityVC, animated: true, completion: nil)

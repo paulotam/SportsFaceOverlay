@@ -10,12 +10,6 @@
 		1C0CAC0A1D003EF900AA352B /* Overlay.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C0CAC091D003EF900AA352B /* Overlay.swift */; };
 		1C0CAC0C1D00455300AA352B /* OverlayCellType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C0CAC0B1D00455300AA352B /* OverlayCellType.swift */; };
 		1C0CAC0E1D00459C00AA352B /* OverlayCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C0CAC0D1D00459C00AA352B /* OverlayCell.swift */; };
-		1C320E0A1D115B1C006C82C8 /* eyeball.png in Resources */ = {isa = PBXBuildFile; fileRef = 1C320E091D115B1C006C82C8 /* eyeball.png */; };
-		1C320E0D1D125CEC006C82C8 /* lion-eyes-left.png in Resources */ = {isa = PBXBuildFile; fileRef = 1C320E0B1D125CEC006C82C8 /* lion-eyes-left.png */; };
-		1C320E0E1D125CEC006C82C8 /* lion-eyes-right.png in Resources */ = {isa = PBXBuildFile; fileRef = 1C320E0C1D125CEC006C82C8 /* lion-eyes-right.png */; };
-		1C320E101D126B2F006C82C8 /* lions-mouth.png in Resources */ = {isa = PBXBuildFile; fileRef = 1C320E0F1D126B2F006C82C8 /* lions-mouth.png */; };
-		1C320E121D16C836006C82C8 /* lions-mouth-large.png in Resources */ = {isa = PBXBuildFile; fileRef = 1C320E111D16C836006C82C8 /* lions-mouth-large.png */; };
-		1C320E141D16CAE8006C82C8 /* HAWKS-beak-large.png in Resources */ = {isa = PBXBuildFile; fileRef = 1C320E131D16CAE8006C82C8 /* HAWKS-beak-large.png */; };
 		1C7A4C841CF5ABA200F1F9BB /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C7A4C831CF5ABA200F1F9BB /* AppDelegate.swift */; };
 		1C7A4C861CF5ABA200F1F9BB /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C7A4C851CF5ABA200F1F9BB /* ViewController.swift */; };
 		1C7A4C891CF5ABA200F1F9BB /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1C7A4C871CF5ABA200F1F9BB /* Main.storyboard */; };
@@ -49,12 +43,6 @@
 		1C0CAC091D003EF900AA352B /* Overlay.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Overlay.swift; sourceTree = "<group>"; };
 		1C0CAC0B1D00455300AA352B /* OverlayCellType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OverlayCellType.swift; sourceTree = "<group>"; };
 		1C0CAC0D1D00459C00AA352B /* OverlayCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OverlayCell.swift; sourceTree = "<group>"; };
-		1C320E091D115B1C006C82C8 /* eyeball.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = eyeball.png; path = AssetFiles/eyeball.png; sourceTree = "<group>"; };
-		1C320E0B1D125CEC006C82C8 /* lion-eyes-left.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "lion-eyes-left.png"; path = "AssetFiles/lion-eyes-left.png"; sourceTree = "<group>"; };
-		1C320E0C1D125CEC006C82C8 /* lion-eyes-right.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "lion-eyes-right.png"; path = "AssetFiles/lion-eyes-right.png"; sourceTree = "<group>"; };
-		1C320E0F1D126B2F006C82C8 /* lions-mouth.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "lions-mouth.png"; path = "AssetFiles/lions-mouth.png"; sourceTree = "<group>"; };
-		1C320E111D16C836006C82C8 /* lions-mouth-large.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "lions-mouth-large.png"; path = "AssetFiles/lions-mouth-large.png"; sourceTree = "<group>"; };
-		1C320E131D16CAE8006C82C8 /* HAWKS-beak-large.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "HAWKS-beak-large.png"; path = "AssetFiles/HAWKS-beak-large.png"; sourceTree = "<group>"; };
 		1C7A4C801CF5ABA200F1F9BB /* SportsFaceOverlay.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SportsFaceOverlay.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1C7A4C831CF5ABA200F1F9BB /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		1C7A4C851CF5ABA200F1F9BB /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -123,12 +111,6 @@
 			children = (
 				1C7A4C871CF5ABA200F1F9BB /* Main.storyboard */,
 				1C7A4C8A1CF5ABA200F1F9BB /* Assets.xcassets */,
-				1C320E131D16CAE8006C82C8 /* HAWKS-beak-large.png */,
-				1C320E0B1D125CEC006C82C8 /* lion-eyes-left.png */,
-				1C320E0C1D125CEC006C82C8 /* lion-eyes-right.png */,
-				1C320E0F1D126B2F006C82C8 /* lions-mouth.png */,
-				1C320E111D16C836006C82C8 /* lions-mouth-large.png */,
-				1C320E091D115B1C006C82C8 /* eyeball.png */,
 				1C7A4C8C1CF5ABA200F1F9BB /* LaunchScreen.storyboard */,
 				1C7A4C8F1CF5ABA200F1F9BB /* Info.plist */,
 				1C9539361CFC44B200D11DC4 /* Source */,
@@ -276,15 +258,9 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				1C320E0E1D125CEC006C82C8 /* lion-eyes-right.png in Resources */,
-				1C320E101D126B2F006C82C8 /* lions-mouth.png in Resources */,
-				1C320E0A1D115B1C006C82C8 /* eyeball.png in Resources */,
 				1C7A4C8E1CF5ABA200F1F9BB /* LaunchScreen.storyboard in Resources */,
-				1C320E141D16CAE8006C82C8 /* HAWKS-beak-large.png in Resources */,
 				1C7A4C8B1CF5ABA200F1F9BB /* Assets.xcassets in Resources */,
 				1C7A4C891CF5ABA200F1F9BB /* Main.storyboard in Resources */,
-				1C320E0D1D125CEC006C82C8 /* lion-eyes-left.png in Resources */,
-				1C320E121D16C836006C82C8 /* lions-mouth-large.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

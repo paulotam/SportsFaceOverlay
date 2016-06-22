@@ -1,5 +1,5 @@
 //
-//  MaskPreviewController
+//  LiveMaskController
 //  SportsFaceOverlay
 //
 //  Created by Paulo Tam on 30/05/2016.
@@ -8,7 +8,6 @@
 
 import UIKit
 import AVFoundation
-
 import GLKit
 import CoreMedia
 
@@ -16,25 +15,21 @@ import CoreMedia
 //need to conform it!
 class LiveMaskController: UIViewController, UICollectionViewDataSource, UICollectionViewDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
   
-  /*var captureSession : AVCaptureSession?
-  var stillImageOutput : AVCaptureStillImageOutput?
-  var previewLayer : AVCaptureVideoPreviewLayer?*/
-  
+  //Setup IBOutlets
   @IBOutlet weak var imageOverlay: UIImageView!
   @IBOutlet weak var cameraView: UIView!
-  
   @IBOutlet weak var capturedImage: UIImageView!
-  
   @IBOutlet weak var collectionView: UICollectionView!
 
+  //variables
   let eaglContext = EAGLContext(API: .OpenGLES2)
   let captureSession = AVCaptureSession()
-  
   let imageView = GLKView()
   
-//  let comicEffect = CIFilter(name: "CIComicEffect")!
-  var eyeballImage = CIImage(image: UIImage(named: "eyeball.png")!)!
-  var noseImage = CIImage(image: UIImage(named: "Hawks")!)!
+  //setup default eyes and nose
+  var eyeballImage = CIImage(image: UIImage(named: "hawks-left-eye")!)!
+  var eyeRightImage = CIImage(image: UIImage(named: "hawks-right-eye")!)!
+  var noseImage = CIImage(image: UIImage(named: "hawks-mouth")!)!
   
   var cameraImage: CIImage?
   var outputImage: CIImage?
@@ -57,70 +52,34 @@ class LiveMaskController: UIViewController, UICollectionViewDataSource, UICollec
                   CIDetectorTracking: true])
       }()
   
+  //setup data for Collection Views
   private var overlays: [Overlay] = [
-    Overlay( title: "Hawks", icon: UIImage(named: "HAWKS-beak-large.png"), leftEye: UIImage(named: "eyeball.png")),
-    Overlay( title: "Lions", icon: UIImage(named: "lions-mouth-large.png"), leftEye: UIImage(named: "lion-eyes-left.png")),
-    Overlay( title: "Hawks", icon: UIImage(named: "Hawks"), leftEye: UIImage(named: "eyeball.png.png")),
-    Overlay( title: "Lions", icon: UIImage(named: "lions-mouth.png"), leftEye: UIImage(named: "lion-eyes-left.png"))]
+    Overlay( title: "Hawks", icon: UIImage(named: "hawks-icon"), mouth: UIImage(named: "hawks-mouth"), leftEye: UIImage(named: "hawks-left-eye"), rightEye: UIImage(named: "hawks-right-eye")),
+    Overlay( title: "Lions", icon: UIImage(named: "lions-icon"), mouth: UIImage(named: "lions-mouth"), leftEye: UIImage(named: "eyeball.png.png"), rightEye: UIImage(named: "eyeball.png")),
+    Overlay( title: "Cats", icon: UIImage(named: "cats-icon"), mouth: UIImage(named: "hawks-icon"), leftEye: UIImage(named: "lion-eyes-leftx2.png"), rightEye: UIImage(named: "lion-eyes-right.png")),
+    Overlay( title: "Tigers", icon: UIImage(named: "tigers-icon"), mouth: UIImage(named: "hawks-icon"), leftEye: UIImage(named: "lion-eyes-left.png"), rightEye: UIImage(named: "lion-eyes-right"))]
 
   
   override func viewWillAppear(animated: Bool) {
     super.viewWillAppear(animated)
     
-    //reload the data in the colelction view.
+    //reload the data in the collection view.
     collectionView.reloadData()
-    
     imageView.contentMode = .ScaleAspectFit
     
-    /*
-    captureSession = AVCaptureSession()
-    //captureSession?.sessionPreset = AVCaptureSessionPreset1920x1080
-    
-    var camera = AVCaptureDevice.defaultDeviceWithMediaType(AVMediaTypeVideo)
-    for cameraDevice in AVCaptureDevice.devices() {
-      if cameraDevice.position == AVCaptureDevicePosition.Front {
-        //todo: do this safely
-        camera = cameraDevice as! AVCaptureDevice
-        break
-      }
-    
+    //If its not running, run it
+    if (captureSession.running == false) {
+      captureSession.startRunning()
     }
-    //camera.position = AVCaptureDevicePosition.Front
-    
-    var error : NSError?
-    var input: AVCaptureDeviceInput!
-    do {
-      input = try AVCaptureDeviceInput(device: camera)
-    } catch let error1 as NSError {
-      error = error1
-      input = nil
-    }
-    
-    if (error == nil && captureSession?.canAddInput(input) != nil){
-      
-      captureSession?.addInput(input)
-      
-      stillImageOutput = AVCaptureStillImageOutput()
-      stillImageOutput?.outputSettings = [AVVideoCodecKey : AVVideoCodecJPEG]
-      
-      if (captureSession?.canAddOutput(stillImageOutput) != nil){
-        captureSession?.addOutput(stillImageOutput)
-        
-        previewLayer = AVCaptureVideoPreviewLayer(session: captureSession)
-        previewLayer?.videoGravity = AVLayerVideoGravityResizeAspect
-        previewLayer?.connection.videoOrientation = AVCaptureVideoOrientation.Portrait
-        cameraView.layer.addSublayer(previewLayer!)
-        captureSession?.startRunning()
-        
-      }
-      
-      
-    }
- */
-    
-    
   }
 
+  override func viewWillDisappear(animated: Bool) {
+    super.viewWillDisappear(animated)
+    //about to disappear, lets stop running.
+    if (captureSession.running == true) {
+      captureSession.stopRunning()
+    }
+  }
   
   override func viewDidLoad() {
     super.viewDidLoad()
@@ -135,9 +94,9 @@ class LiveMaskController: UIViewController, UICollectionViewDataSource, UICollec
     collectionView.delegate = self
     collectionView.reloadData()
     
-    
   }
   
+  //Function to capture session.
   func initialiseCaptureSession()
   {
     captureSession.sessionPreset = AVCaptureSessionPresetPhoto
@@ -171,10 +130,8 @@ class LiveMaskController: UIViewController, UICollectionViewDataSource, UICollec
     captureSession.startRunning()
   }
   
-  /// Detects either the left or right eye from `cameraImage` and, if detected, composites
-  /// `eyeballImage` over `backgroundImage`. If no eye is detected, simply returns the
-  /// `backgroundImage`.
-  func eyeImage(cameraImage: CIImage, backgroundImage: CIImage, leftEye: Bool) -> CIImage
+  // Code to detect the left Eye position and put image into it.
+  func eyeImage(cameraImage: CIImage, backgroundImage: CIImage) -> CIImage
   {
     let compositingFilter = CIFilter(name: "CISourceAtopCompositing")!
     let transformFilter = CIFilter(name: "CIAffineTransform")!
@@ -183,11 +140,11 @@ class LiveMaskController: UIViewController, UICollectionViewDataSource, UICollec
     let halfEyeHeight = eyeballImage.extent.height / 2
     
     if let features = detector.featuresInImage(cameraImage).first as? CIFaceFeature
-      where leftEye ? features.hasLeftEyePosition : features.hasRightEyePosition
-    {
+      where features.hasLeftEyePosition
+      {
       let eyePosition = CGAffineTransformMakeTranslation(
-        leftEye ? features.leftEyePosition.x - halfEyeWidth : features.rightEyePosition.x - halfEyeWidth,
-        leftEye ? features.leftEyePosition.y - halfEyeHeight : features.rightEyePosition.y - halfEyeHeight)
+        features.leftEyePosition.x - halfEyeWidth,
+        features.leftEyePosition.y - halfEyeHeight)
       
       transformFilter.setValue(eyeballImage, forKey: "inputImage")
       transformFilter.setValue(NSValue(CGAffineTransform: eyePosition), forKey: "inputTransform")
@@ -204,6 +161,38 @@ class LiveMaskController: UIViewController, UICollectionViewDataSource, UICollec
     }
   }
   
+  // Code to detect the right Eye position and put image into it.
+  func eyeRightImage(cameraImage: CIImage, backgroundImage: CIImage) -> CIImage
+  {
+    let compositingFilter = CIFilter(name: "CISourceAtopCompositing")!
+    let transformFilter = CIFilter(name: "CIAffineTransform")!
+    
+    let halfEyeWidth = eyeRightImage.extent.width / 2
+    let halfEyeHeight = eyeRightImage.extent.height / 2
+    
+    if let features = detector.featuresInImage(cameraImage).first as? CIFaceFeature
+      where features.hasRightEyePosition
+    {
+      let eyePosition = CGAffineTransformMakeTranslation(
+        features.rightEyePosition.x - halfEyeWidth,
+        features.rightEyePosition.y - halfEyeHeight)
+      
+      transformFilter.setValue(eyeRightImage, forKey: "inputImage")
+      transformFilter.setValue(NSValue(CGAffineTransform: eyePosition), forKey: "inputTransform")
+      let transformResult = transformFilter.valueForKey("outputImage") as! CIImage
+      
+      compositingFilter.setValue(backgroundImage, forKey: kCIInputBackgroundImageKey)
+      compositingFilter.setValue(transformResult, forKey: kCIInputImageKey)
+      
+      return  compositingFilter.valueForKey("outputImage") as! CIImage
+    }
+    else
+    {
+      return backgroundImage
+    }
+  }
+  
+  // Code to detect the nose position and put image into it.
   func noseImage(cameraImage: CIImage, backgroundImage: CIImage) -> CIImage
   {
     let compositingFilter = CIFilter(name: "CISourceAtopCompositing")!
@@ -241,11 +230,9 @@ class LiveMaskController: UIViewController, UICollectionViewDataSource, UICollec
   
   override func viewDidAppear(animated: Bool) {
     super.viewDidAppear(animated)
-    //previewLayer?.frame = cameraView.bounds
   }
   
   func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-    //guard let overlays = overlays else { return 0 }
     return overlays.count
   }
   
@@ -260,34 +247,36 @@ class LiveMaskController: UIViewController, UICollectionViewDataSource, UICollec
     return cell
   }
   
+  // On select of the item in collection view, set the images that get put onto face.
   func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
-    // set the overlay to do something?
-    //imageOverlay.image = overlays[indexPath.row].icon
-    noseImage = CIImage(image: overlays[indexPath.row].icon!)!
+    noseImage = CIImage(image: overlays[indexPath.row].mouth!)!
     eyeballImage = CIImage(image: overlays[indexPath.row].leftEye!)!
+    eyeRightImage = CIImage(image: overlays[indexPath.row].rightEye!)!
   }
   
+  //IBAction to take picture.
   @IBAction func takePicture(sender: AnyObject) {
     
     let image = UIImage(CIImage: outputImage!)
     capturedImage.image = image
-    
     performSegueWithIdentifier("previewMaskSegue", sender: self)
+    
+  }
+  
+  //IBAction unwind
+  @IBAction func unwindToLive(segue: UIStoryboardSegue) {
     
   }
   
   override func didReceiveMemoryWarning() {
     super.didReceiveMemoryWarning()
-    
   }
   
   override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-    
     if let pmVC = segue.destinationViewController as? PreviewMaskController {
       pmVC.imagePassed = capturedImage
       
     }
-    
   }
 }
 
@@ -317,20 +306,18 @@ extension LiveMaskController: GLKViewDelegate
       return
     }
     
-    let leftEyeImage = eyeImage(cameraImage, backgroundImage: cameraImage, leftEye: true)
-    let rightEyeImage = eyeImage(cameraImage, backgroundImage: leftEyeImage, leftEye: false)
+    let leftEyeImage = eyeImage(cameraImage, backgroundImage: cameraImage)
+    let rightEyeImage = eyeRightImage(cameraImage, backgroundImage: leftEyeImage)
     let noseResult = noseImage(cameraImage, backgroundImage: rightEyeImage)
-    //comicEffect.setValue(rightEyeImage, forKey: kCIInputImageKey)
     
-//    let outputImage = comicEffect.valueForKey(kCIOutputImageKey) as! CIImage
+    //let outputImage = noseResult as CIImage
     outputImage = noseResult
     
-    // TODO: remove !
     ciContext.drawImage(outputImage!,
-                        inRect: CGRect(x: 0, y: 0,
-                          width: imageView.drawableWidth,
-                          height: imageView.drawableHeight),
-                        fromRect: outputImage!.extent)
+      inRect: CGRect(x: 0, y: 0,
+        width: imageView.drawableWidth,
+        height: imageView.drawableHeight),
+      fromRect: outputImage!.extent)
   }
 }
 

@@ -18,31 +18,19 @@ class PreLoader: UIViewController {
   override func viewDidLoad() {
     super.viewDidLoad()
     
-    // view.layer.sublayers![0]
-    // Do any additional setup after loading the view, typically from a nib.
+    // alamo fire to download new images.
     
-    // Show preloader?
+    // show downloading faces?
     
-    // alamo fire to download.
+    // second thread
+    // let imageData = NSData(contentsOfURL: NSURL(string: "http://...")!)!
     
-    // show downloading faces and odds?
+    // back on main thread
+    // UIImage(data: imageData)
     
-    // Once it has loaded push to next screen via perform segue
+    //lazy loading of images from alamofire
     
-    // place a segue on the view controller that will then call the next view controller.
-       
   }
-  
-  
-  @IBAction func ageButton(sender: AnyObject) {
-    over18 = !over18
-    if over18 == true {
-      buttonText.setTitle("Yes", forState: UIControlState.Normal)
-    } else {
-      buttonText.setTitle("No", forState: UIControlState.Normal)
-    }
-  }
-  
   
   @IBAction func startButton(sender: AnyObject) {
     performSegueWithIdentifier("loadCameraSegue", sender: self)

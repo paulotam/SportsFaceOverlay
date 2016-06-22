@@ -9,12 +9,16 @@
 class Overlay {
   var title: String?
   var icon: UIImage?
+  var mouth: UIImage?
   var leftEye: UIImage?
+  var rightEye: UIImage?
   
-  init(title: String?, icon: UIImage?, leftEye: UIImage?) {
+  init(title: String?, icon: UIImage?, mouth: UIImage?, leftEye: UIImage?, rightEye: UIImage?) {
     self.title = title
     self.icon = icon
+    self.mouth = mouth
     self.leftEye = leftEye
+    self.rightEye = rightEye
   }
 }
 
