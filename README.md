@@ -2,6 +2,8 @@
 GA Final Course Project
 =======================
 
+![Alt text](/screenshots/storyboard1.jpg?raw=true "StoryBoard 1")
+
 Assignment by Paulo Tam
 Submitted 22 June 2016
 
@@ -13,6 +15,7 @@ StoryBoard 1
 
 Splash Screen. Can use this screen to show a start button and a nice graphic to
 start before the app opens up.
+
 
 StoryBoard 2
 ------------
@@ -55,6 +58,7 @@ the server to support the function of the app. But due to the limitation of time
 it was left out as the more important part was to show the overlay on the face
 and the share capability.
 
+Zooming on the face?
 
 Get more faces into the App!
 
