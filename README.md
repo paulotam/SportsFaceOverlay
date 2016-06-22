@@ -2,7 +2,7 @@
 GA Final Course Project
 =======================
 
-![Alt text](/screenshots/storyboard1.jpg?raw=true "StoryBoard 1")
+![Alt text](/screenshots/storyboard1.jpg?raw=true =320x "StoryBoard 1")
 
 Assignment by Paulo Tam
 Submitted 22 June 2016
